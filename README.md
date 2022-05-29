@@ -1,9 +1,9 @@
 # walrus-ransomware
 
-A harmless ransomware. It encrypts a given list of files by shifting bits.
-The intent of the software is to test and verify the operational readyness of our own cyber security defense systems.
+walrus - the harmless ransomware. It **encrypts a given list of files** by shifting bits within the files. It is of course open source, you can compile yourself.
 
-Use at you own risk, don't encrypt production files.
+**intent**<br/>
+The intent of the software is to test and verify the operational readyness of our own cyber security defense systems. <font color="red">Use at you own risk</font> and don't encrypt production files.
 
 # Usage
 
