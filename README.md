@@ -23,3 +23,6 @@ Ideally, your cyber defense system should block the activity of walrus at some p
 ```
 walrus.exe /encrypt c:\temp\filelist.txt
 ```
+```
+walrus.exe /decrypt c:\temp\filelist.txt
+```
