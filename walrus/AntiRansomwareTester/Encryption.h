@@ -3,6 +3,10 @@
 #include <fstream>
 #include <bitset>
 #include <string>
+#include <sys/stat.h>
+#include <filesystem>
+namespace fs = std::filesystem;
+
 
 class Encryption
 {
@@ -22,5 +26,14 @@ public:
 
 	// check if file exists
 	bool fileExists();
+
+	// copy a file to another location
+	bool copyFile(std::string SRC, std::string DEST);
+
+	// check whether a directory exists
+	bool directoryExists(std::string path);
+
+	// create a directory
+	void createDirectory(std::string path);
 };
 

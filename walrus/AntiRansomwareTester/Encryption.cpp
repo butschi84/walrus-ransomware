@@ -6,14 +6,41 @@ Encryption::Encryption(std::string filename)
     sourceFileNameEncrypted = filename + ".enc";
 }
 
+// copy in binary mode
+bool Encryption::copyFile(std::string SRC, std::string DEST)
+{
+    std::ifstream src(SRC, std::ios::binary);
+    std::ofstream dest(DEST, std::ios::binary);
+    dest << src.rdbuf();
+    return src && dest;
+}
+
+bool Encryption::directoryExists(std::string path) {
+    struct stat buffer;
+    return (stat(path.c_str(), &buffer) == 0);
+}
+
+void Encryption::createDirectory(std::string path) {
+    fs::create_directory(path);
+}
+
 void Encryption::Decrypt()
 {
     char currentByte;
     bool currentBit;
     int index = 0;
 
+    // make sure tmp dir exists
+    if (!directoryExists("c:\\tmp")) createDirectory("c:\\tmp");
+
+    // copy to tmp
+    if (!copyFile(sourceFileNameEncrypted, "c:\\tmp\\walrus_in.tmp")) {
+        printf("could not copy source file");
+        return;
+    }
+
     // open input file
-    file2.open(sourceFileNameEncrypted, std::ios::in | std::ios::out | std::ios::binary);
+    file2.open("c:\\tmp\\walrus_in.tmp", std::ios::in | std::ios::out | std::ios::binary);
 
     // check if source file exists
     if (!file2.is_open()) {
@@ -22,7 +49,7 @@ void Encryption::Decrypt()
     }
 
     // open output file
-    file1.open(sourceFileName, std::ios::out | std::ios::binary);
+    file1.open("c:\\tmp\\walrus_out.tmp", std::ios::out | std::ios::binary);
 
     // sets the pointers to the beginning of the file
     file2.seekg(0, std::ios::beg);
@@ -58,8 +85,13 @@ void Encryption::Decrypt()
     file1.close();
     file2.close();
 
+    // copy output file to destination
+    copyFile("c:\\tmp\\walrus_out.tmp", sourceFileName);
+
     //delete the encrypted file
     std::remove(sourceFileNameEncrypted.c_str());
+    std::remove("c:\\tmp\\walrus_out.tmp");
+    std::remove("c:\\tmp\\walrus_in.tmp");
 }
 
 void Encryption::Encrypt()
@@ -68,17 +100,26 @@ void Encryption::Encrypt()
     bool currentBit;
     int index = 0;
 
+    // make sure tmp dir exists
+    if (!directoryExists("c:\\tmp")) createDirectory("c:\\tmp");
+
+    // copy to tmp
+    if (!copyFile(sourceFileName, "c:\\tmp\\walrus_in.tmp")) {
+        printf("could not copy source file");
+        return;
+    }
+
     // open input file
-    file1.open(sourceFileName, std::ios::in | std::ios::out | std::ios::binary);
+    file1.open("c:\\tmp\\walrus_in.tmp", std::ios::in | std::ios::out | std::ios::binary);
 
     // check if source file exists
-    if(!file1.is_open()) {
+    if (!file1.is_open()) {
         printf("source file %s could not be loaded\n", sourceFileName.c_str());
         return;
     }
 
     // open output file
-    file2.open(sourceFileNameEncrypted, std::ios::out | std::ios::binary);
+    file2.open("c:\\tmp\\walrus_out.tmp", std::ios::out | std::ios::binary);
 
     // sets the pointers to the beginning of the file
     file1.seekg(0, std::ios::beg);
@@ -118,8 +159,13 @@ void Encryption::Encrypt()
     file1.close();
     file2.close();
 
+    // copy output file to destination
+    copyFile("c:\\tmp\\walrus_out.tmp", sourceFileNameEncrypted);
+
     //delete the unencrypted file
     std::remove(sourceFileName.c_str());
+    std::remove("c:\\tmp\\walrus_out.tmp");
+    std::remove("c:\\tmp\\walrus_in.tmp");
 }
 
 bool Encryption::fileExists() {
