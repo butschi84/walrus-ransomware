@@ -24,12 +24,21 @@
     <ClCompile Include="FileList.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Discovery.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Encryption.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="FileList.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Discovery.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="dirent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

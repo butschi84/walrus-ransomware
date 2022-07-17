@@ -142,10 +142,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AntiRansomwareTester.cpp" />
+    <ClCompile Include="Discovery.cpp" />
     <ClCompile Include="Encryption.cpp" />
     <ClCompile Include="FileList.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="dirent.h" />
+    <ClInclude Include="Discovery.h" />
     <ClInclude Include="Encryption.h" />
     <ClInclude Include="FileList.h" />
   </ItemGroup>

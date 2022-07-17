@@ -4,6 +4,7 @@
 #include <iostream>
 #include "Encryption.h"
 #include "FileList.h"
+#include "Discovery.h"
 
 int main(int argc, char* argv[])
 {
@@ -15,30 +16,51 @@ int main(int argc, char* argv[])
         std::cout << "- use with test files. see if your cyber security defense system reacts to the actions." << "\n";
         std::cout << "" << "\n";
         std::cout << "usage: " << "\n";
-        std::cout << "ransomwaretester.exe /encrypt filelist.txt" << "\n";
-        std::cout << "ransomwaretester.exe /decrypt filelist.txt" << "\n";
+        std::cout << "- encrypt a given list of files:" << "\n";
+        std::cout << "  ransomwaretester.exe /encrypt filelist.txt" << "\n";
+        std::cout << "\n";
+        std::cout << "- decrypt a given list of files:" << "\n";
+        std::cout << "  ransomwaretester.exe /decrypt filelist.txt" << "\n";
+        std::cout << "\n";
+        std::cout << "- discover all files and folders:" << "\n";
+        std::cout << "  ransomwaretester.exe /discover c:\\mydir" << "\n";
     } else {
-        // read file list
-        std::cout << "trying to read input file: " << argv[2] << "\n";
-        FileList inputFiles((std::string)argv[2]);
-        inputFiles.readFileList();
-        std::vector<std::string> sourceFiles = inputFiles.getSourceFiles();
         std::string operation = argv[1];
         if (operation == "/encrypt") {
+            // read file list
+            std::cout << "trying to read input file: " << argv[2] << "\n";
+            FileList inputFiles((std::string)argv[2]);
+            inputFiles.readFileList();
+            std::vector<std::string> sourceFiles = inputFiles.getSourceFiles();
+
             std::cout << "starting encryption of files..." << "\n";
             for (std::size_t i = 0; i < sourceFiles.size(); ++i) {
                 Encryption gamma(sourceFiles[i]);
                 std::cout << "encrypt: " << sourceFiles[i] << "\n";
                 gamma.Encrypt();
             }
-        } else if (operation == "/decrypt") {
+        }
+        else if (operation == "/decrypt") {
+            // read file list
+            std::cout << "trying to read input file: " << argv[2] << "\n";
+            FileList inputFiles((std::string)argv[2]);
+            inputFiles.readFileList();
+            std::vector<std::string> sourceFiles = inputFiles.getSourceFiles();
+            
             std::cout << "starting decryption of files..." << "\n";
             for (std::size_t i = 0; i < sourceFiles.size(); ++i) {
                 Encryption gamma(sourceFiles[i]);
                 std::cout << "decrypt: " << sourceFiles[i] << "\n";
                 gamma.Decrypt();
             }
-        } else {
+        }
+        else if (operation == "/discover") {
+            std::cout << "starting discovery:" << "\n";
+            std::string directory = (std::string)argv[2];
+            Discovery gamma(directory);
+            gamma.start();
+        }
+        else {
             std::cout << "unknown argument: '" << argv[1] << "'\n";
         }
     }
